@@ -1,4 +1,5 @@
 import * as request from 'request';
+import * as path from 'path';
 
 export default class Markus {
     private domain: string;
@@ -6,9 +7,9 @@ export default class Markus {
         this.domain = domain;
     }
 
-    public UploadSingleBuffer(buffer: Buffer): Promise<any> {
+    public UploadSingleBuffer(buffer: Buffer, original: string, tags: string[], key: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            var r = request.post(this.domain + '/m/buffer', (error, response, body) => {
+            const r = request.post(this.domain + '/m/buffer', (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     if (body.data) {
                         resolve(body.data);
@@ -17,22 +18,25 @@ export default class Markus {
                     reject(error);
                 }
             });
-            var form = r.form()
+            const form = r.form();
+            const extName = path.extname(original)
             form.append('image', buffer, {
-                filename: '1.jpg',
-                contentType: 'image/jpeg',
+                filename: original,
+                contentType: 'image/' + extName.substring(1, path.extname.length),
             });
-            form.append('tags', JSON.stringify(['sdk']));
-            form.append('key', 'test');
+            form.append('tags', JSON.stringify(tags));
+            form.append('key', key);
         });
     }
 
-    public UploadMultipleBuffer(buffers: Buffer[]): Promise<any> {
+    public UploadMultipleBuffer(buffers: Buffer[], prefix: string, extName: string, tags: string[], key: string): Promise<any> {
         const resultList: any[] = [];
+        let count = 0;
         const Upload = (callback: () => any, whenErr: (err: Error) => any) => {
             const buffer = buffers.shift();
             if (buffer) {
-                this.UploadSingleBuffer(buffer).then((result: any) => {
+                const originalName = prefix + (count++) + '.' + extName;
+                this.UploadSingleBuffer(buffer, originalName, tags, key).then((result: any) => {
                     resultList.push(result);
                     Upload(callback, whenErr);
                 }).catch((err: Error) => {
