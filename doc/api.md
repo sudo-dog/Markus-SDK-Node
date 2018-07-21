@@ -1,6 +1,6 @@
 # Markus-SDK-Node - API
 
-## Upload multiple picture by Buffers
+## Upload multiple pictures by Buffers
 
 ### Example
 
