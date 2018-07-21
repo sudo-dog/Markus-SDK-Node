@@ -6,6 +6,6 @@ Markus SDK for Node.js
 
 ### APIS
 
--   [Admin](https://github.com/sudo-dog/Markus-SDK-Node/wiki/API)
+-   [API](https://github.com/sudo-dog/Markus-SDK-Node/wiki/API)
 
 > Created by [Ghoti-CLI](https://github.com/WMXPY/Ghoti-CLI/) 4.1.2

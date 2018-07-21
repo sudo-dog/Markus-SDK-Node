@@ -17,7 +17,21 @@ buffers.push(fs.readFileSync('PATH5'));
 buffers.push(fs.readFileSync('PATH6'));
 
 const a = new Markus('http://domain.com');
-a.UploadMultipleBuffer(buffers, prefix, extName, tags, key);
+a.UploadMultipleBuffer(buffers, prefix, extName, tags, key).then((result)=>{
+    // Result will be like
+    // [{
+    //     original: 'OriginalName1',
+    //     id: 'id1',
+    // },{
+    //     original: 'OriginalName2',
+    //     id: 'id2',
+    // },{
+    //     original: 'OriginalName3',
+    //     id: 'id3',
+    // }]
+}).catch((err)=>{
+    // Return Error
+});
 ```
 
 ### Description
@@ -50,7 +64,15 @@ const fs = require('fs');
 const buffer = fs.readFileSync('PATH1')
 
 const a = new Markus('http://domain.com');
-a.UploadSingleBuffer(buffer, original, tags, key);
+a.UploadSingleBuffer(buffer, original, tags, key).then((result)=>{
+    // Result will be like
+    // {
+    //     original: 'OriginalName',
+    //     id: 'id',
+    // }
+}).catch((err)=>{
+    // Return Error
+});
 ```
 
 ### Description
