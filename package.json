@@ -1,0 +1,31 @@
+{
+  "name": "markus-sdk-node",
+  "version": "1.0.0",
+  "description": "markus sdk for nodejs",
+  "main": "dist/index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "mocha",
+    "build": "tsc --p typescript/tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sudo-dog/Markus-SDK-Node.git"
+  },
+  "author": "sudo.dog",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sudo-dog/Markus-SDK-Node/issues"
+  },
+  "homepage": "https://github.com/sudo-dog/Markus-SDK-Node#readme",
+  "dependencies": {
+    "form-data": "^2.3.2",
+    "request": "^2.87.0"
+  },
+  "devDependencies": {
+    "@types/form-data": "^2.2.1",
+    "@types/request": "^2.47.1"
+  }
+}
