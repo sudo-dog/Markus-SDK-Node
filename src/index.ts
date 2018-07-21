@@ -1,5 +1,4 @@
 import * as request from 'request';
-import * as FormData from 'form-data';
 
 export default class Markus {
     private domain: string;
@@ -11,10 +10,11 @@ export default class Markus {
         return new Promise<any>((resolve, reject) => {
             var r = request.post(this.domain + '/m/buffer', (error, response, body) => {
                 if (!error && response.statusCode == 200) {
-                    resolve(body);
-                    console.log(body);
+                    if (body.data) {
+                        resolve(body.data);
+                    }
                 } else {
-                    console.log(error, body);
+                    reject(error);
                 }
             });
             var form = r.form()
@@ -29,15 +29,17 @@ export default class Markus {
 
     public UploadMultipleBuffer(buffers: Buffer[]): Promise<any> {
         const resultList: any[] = [];
-        const Upload = (cb: () => any) => {
+        const Upload = (callback: () => any, whenErr: (err: Error) => any) => {
             const buffer = buffers.shift();
             if (buffer) {
                 this.UploadSingleBuffer(buffer).then((result: any) => {
                     resultList.push(result);
-                    Upload(cb);
-                })
+                    Upload(callback, whenErr);
+                }).catch((err: Error) => {
+                    whenErr(err);
+                });
             } else {
-                cb();
+                callback();
             }
         }
         return new Promise<any>((resolve, reject) => {
@@ -45,8 +47,10 @@ export default class Markus {
             for (let i = 0; i < loop; i++) {
                 Upload(() => {
                     if (resultList.length === buffers.length) {
-                        console.log(resultList);
+                        resolve(resultList);
                     }
+                }, (err: Error) => {
+                    reject(err);
                 });
             }
         });

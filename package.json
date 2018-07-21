@@ -1,6 +1,6 @@
 {
   "name": "markus-sdk-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "markus sdk for nodejs",
   "main": "dist/index.js",
   "directories": {
@@ -21,11 +21,10 @@
   },
   "homepage": "https://github.com/sudo-dog/Markus-SDK-Node#readme",
   "dependencies": {
-    "form-data": "^2.3.2",
     "request": "^2.87.0"
   },
   "devDependencies": {
-    "@types/form-data": "^2.2.1",
-    "@types/request": "^2.47.1"
+    "@types/request": "^2.47.1",
+    "ghoti-cli": "^4.1.2"
   }
 }

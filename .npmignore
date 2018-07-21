@@ -1,0 +1,7 @@
+.gitignore
+package-lock.json
+typescript
+src
+node_modules
+example
+.vscode
