@@ -17,7 +17,9 @@ buffers.push(fs.readFileSync('PATH5'));
 buffers.push(fs.readFileSync('PATH6'));
 
 const a = new Markus('http://domain.com');
-a.UploadMultipleBuffer(buffers, prefix, extName, tags, key).then((result)=>{
+a.UploadMultipleBuffer(buffers, prefix, extName, tags, (count)=>{
+    console.log(count);
+}, key).then((result)=>{
     // Result will be like
     // [{
     //     original: 'OriginalName1',
@@ -48,6 +50,8 @@ Use UploadMultipleBuffer within arguments below
     -   Original file extension name
 -   Tags
     -   Tags array
+-   Tic
+    -   Got called when each picture is uploaded
 -   Key
     -   Optional, your Markus validation key, if you are using it
 

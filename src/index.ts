@@ -7,10 +7,11 @@ export default class Markus {
         this.domain = domain;
     }
 
-    public UploadSingleBuffer(buffer: Buffer, original: string, tags: string[], key: string): Promise<any> {
+    public UploadSingleBuffer(buffer: Buffer, original: string, tags: string[], key?: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             const r = request.post(this.domain + '/m/buffer', (error, response, body) => {
                 if (!error && response.statusCode == 200) {
+                    body = JSON.parse(body);
                     if (body.data) {
                         resolve(body.data);
                     }
@@ -19,17 +20,17 @@ export default class Markus {
                 }
             });
             const form = r.form();
-            const extName = path.extname(original)
+            const extName = path.extname(original);
             form.append('image', buffer, {
                 filename: original,
-                contentType: 'image/' + extName.substring(1, path.extname.length),
+                contentType: 'image/' + extName.substring(1, extName.length),
             });
             form.append('tags', JSON.stringify(tags));
-            form.append('key', key);
+            if (key) form.append('key', key);
         });
     }
 
-    public UploadMultipleBuffer(buffers: Buffer[], prefix: string, extName: string, tags: string[], key: string): Promise<any> {
+    public UploadMultipleBuffer(buffers: Buffer[], prefix: string, extName: string, tags: string[], tic?: (count: number) => any, key?: string): Promise<any> {
         const resultList: any[] = [];
         let count = 0;
         const Upload = (callback: () => any, whenErr: (err: Error) => any) => {
@@ -38,6 +39,7 @@ export default class Markus {
                 const originalName = prefix + (count++) + '.' + extName;
                 this.UploadSingleBuffer(buffer, originalName, tags, key).then((result: any) => {
                     resultList.push(result);
+                    if (tic) tic(resultList.length);
                     Upload(callback, whenErr);
                 }).catch((err: Error) => {
                     whenErr(err);
