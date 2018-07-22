@@ -33,6 +33,7 @@ export default class Markus {
     public UploadMultipleBuffer(buffers: Buffer[], prefix: string, extName: string, tags: string[], tic?: (count: number) => any, key?: string): Promise<any> {
         const resultList: any[] = [];
         let count = 0;
+        const len = buffers.length;
         const Upload = (callback: () => any, whenErr: (err: Error) => any) => {
             const buffer = buffers.shift();
             if (buffer) {
@@ -52,7 +53,7 @@ export default class Markus {
             const loop = buffers.length <= 5 ? buffers.length : 5;
             for (let i = 0; i < loop; i++) {
                 Upload(() => {
-                    if (resultList.length === buffers.length) {
+                    if (resultList.length === len) {
                         resolve(resultList);
                     }
                 }, (err: Error) => {

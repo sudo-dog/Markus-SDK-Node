@@ -1,6 +1,6 @@
 {
   "name": "markus-sdk-node",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "markus sdk for nodejs",
   "main": "dist/index.js",
   "directories": {
