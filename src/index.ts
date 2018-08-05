@@ -9,7 +9,12 @@ export default class Markus {
 
     public UploadSingleBuffer(buffer: Buffer, original: string, tags: string[], key?: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
-            const r = request.post(this.domain + '/m/buffer', (error, response, body) => {
+            const option = key ? {
+                headers: {
+                    'authorization': 'Basic' + key,
+                }
+            } : {};
+            const r = request.post(this.domain + '/m/buffer', option, (error, response, body) => {
                 if (!error && response.statusCode == 200) {
                     body = JSON.parse(body);
                     if (body.data) {
@@ -26,7 +31,6 @@ export default class Markus {
                 contentType: 'image/' + extName.substring(1, extName.length),
             });
             form.append('tags', JSON.stringify(tags));
-            if (key) form.append('key', key);
         });
     }
 
