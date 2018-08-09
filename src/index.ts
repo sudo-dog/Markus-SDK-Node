@@ -11,7 +11,7 @@ export default class Markus {
         return new Promise<any>((resolve, reject) => {
             const option = key ? {
                 headers: {
-                    'authorization': 'Basic' + key,
+                    'authorization': 'Basic ' + key,
                 }
             } : {};
             const r = request.post(this.domain + '/m/buffer', option, (error, response, body) => {
