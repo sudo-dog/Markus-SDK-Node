@@ -30,7 +30,7 @@ export default class Markus {
                 filename: original,
                 contentType: 'image/' + extName.substring(1, extName.length),
             });
-            form.append('tags', JSON.stringify(tags));
+            form.append('tags', tags.join(','));
         });
     }
 
