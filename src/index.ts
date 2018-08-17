@@ -26,6 +26,7 @@ export default class Markus {
             });
             const form = r.form();
             const extName = path.extname(original);
+            form.append('key', key);
             form.append('image', buffer, {
                 filename: original,
                 contentType: 'image/' + extName.substring(1, extName.length),
